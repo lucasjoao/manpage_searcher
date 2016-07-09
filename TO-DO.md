@@ -1,5 +1,6 @@
 fazer:
 1. pegar arquivos pela linha de comando
+    - ele pega todo o diretório, como tratar isso?
 2. criar arquivo de registro
     - uma struct é um registro (__como definir o tamanho da struct?__)
         - indice
