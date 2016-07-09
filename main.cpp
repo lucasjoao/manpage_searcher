@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Sistema.hpp"
 
 int main(int argc, char *argv[]) {
 	if (argc == 1) {
@@ -7,8 +8,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	for (int i = 1; i < argc; i++)
-		std::cout << argv[i] << std::endl;
+	Sistema *sis = new Sistema(argc, argv);
 
 	return 0;
 }
