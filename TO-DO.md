@@ -1,7 +1,7 @@
 fazer:
-1. pegar arquivos pela linha de comando
-    - ele pega todo o diretório, como tratar isso?
+1. criar arquivo e escrever algo nele
 2. criar arquivo de registro
+    - ele pega todo o diretório, como tratar isso?
     - uma struct é um registro (__como definir o tamanho da struct?__)
         - indice
         - comando
