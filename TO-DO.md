@@ -9,6 +9,10 @@ fazer:
     1. a partir de cada arquivo é criando arquivo de registros
 3. avl deve criar arquivo de índice
 4. busca primária
+
+tratamento para saber se abriu arquivo ou não
+desempenho ruim? joga tudo em um for
+-
 5. arquivo invertido
 6. busca secundária
 7. busca conjuntiva
