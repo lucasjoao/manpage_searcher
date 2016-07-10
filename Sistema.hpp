@@ -27,21 +27,29 @@ class Sistema {
 		void /*std::string*/ trata_argv(std::string comando) {
 			verifica_argv();
 			if (_dir) {
-
+				std::size_t fsl_pos = comando.find_last_of("/");
+				std::size_t end_pos = comando.find_last_of(comando.back());
+				comando = comando.substr(fsl_pos+1, end_pos);
 			}
-			comando.erase(comando.find_last_of("."),comando.end);
+			std::size_t dot_pos = comando.find_last_of(".");
+			comando = comando.substr(0, dot_pos);
 			std::cout << comando;
-
-		}
-
-		void tmp() {
-			trata_argv(_argv[1]);
 		}
 
 		void cria_registros() {
-			for (int i = 1; i < _argc; i++) {
+			std::ifstream ifs (_argv[1], std::ifstream::in);
+			ifs.seekg (0, ifs.end);
+		    int length = ifs.tellg();
+		    ifs.seekg (0, ifs.beg);
+			char *buffer = new char[length];
+			ifs.read(buffer, length);
+			std::string descricao(buffer);
+			std::cout << descricao << std::endl;
+			ifs.close();
+
+			// for (int i = 1; i < _argc; i++) {
 				// _regs.push_back(new Registro(i, trata_argv(_argv[i]),
-			}
+			// }
 		}
 
 		void cria_manpage_dat() {
