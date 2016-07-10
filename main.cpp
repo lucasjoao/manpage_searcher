@@ -11,5 +11,7 @@ int main(int argc, char **argv) {
 	Sistema sis = Sistema(argc, argv);
 
 	sis.cria_registros();
+	sis.cria_manpage_dat();
+
 	return 0;
 }

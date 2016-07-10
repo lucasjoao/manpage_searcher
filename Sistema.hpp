@@ -58,21 +58,23 @@ class Sistema {
 		}
 
 		void cria_manpage_dat() {
-			// std::ofstream ofs ("manpage.dat", std::ofstream::out);
+			std::ofstream ofs("manpages.dat", std::ofstream::binary);
 
-			// std::ifstream ifs (_argv[1], std::ifstream::in);
-			// ifs.seekg (0, ifs.end);
-		 //    int length = ifs.tellg();
-		 //    ifs.seekg (0, ifs.beg);
-			// char *buffer = new char[length];
-			// ifs.read(buffer, length);
-			// for (int i = 0; i < length; i++)
-			// 	std::cout << buffer[i];
+			long start = ofs.tellp();
+			ofs.write((char *) _regs[0], sizeof(Registro));
+			long end = ofs.tellp();
 
-			// ofs << _argv[1] << "\n" << length;
+			_regs[0]->set_dat_start(start);
+			_regs[0]->set_dat_end(end);
 
-			// ofs.close();
+			std::cout << start << "\n" << end << "\n";
+
+			ofs.close();
 		}
+
+		// std::string le_manpage_dat() {
+
+		// }
 
 	private:
 		int _argc;

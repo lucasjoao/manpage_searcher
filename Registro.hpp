@@ -12,6 +12,14 @@ class Registro {
 
 		~Registro() {}
 
+		void set_dat_start(long start) {
+			_dat_start = start;
+		}
+
+		void set_dat_end(long end) {
+			_dat_end = end;
+		}
+
 	private:
 		int _dat_start;
 		int _dat_end;
