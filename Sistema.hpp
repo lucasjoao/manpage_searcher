@@ -67,7 +67,15 @@ class Sistema {
 			_regs[0]->set_dat_start(start);
 			_regs[0]->set_dat_end(end);
 
-			std::cout << start << "\n" << end << "\n";
+
+			long start2 = ofs.tellp();
+			ofs.write((char *) _regs[1], sizeof(Registro));
+			long end2 = ofs.tellp();
+
+			_regs[1]->set_dat_start(start2);
+			_regs[1]->set_dat_end(end2);
+
+			std::cout << start2 << "\n" << end2 << "\n";
 
 			ofs.close();
 		}
