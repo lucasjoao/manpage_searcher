@@ -7,7 +7,7 @@ class Registro {
 	public:
 		Registro() {}
 
-		Registro(int indice, char **comando, char **descricao)
+		Registro(int indice, std::string comando, std::string descricao)
 				: _indice(indice), _comando(comando), _descricao(descricao) {}
 
 		~Registro() {}

@@ -10,8 +10,6 @@ int main(int argc, char **argv) {
 
 	Sistema sis = Sistema(argc, argv);
 
-	// sis.cria_manpage_dat();
-	// sis.tmp();
 	sis.cria_registros();
 	return 0;
 }

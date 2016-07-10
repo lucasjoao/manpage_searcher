@@ -5,7 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-// #include "Registro.hpp"
+#include "Registro.hpp"
 
 class Sistema {
 	public:
@@ -24,32 +24,37 @@ class Sistema {
 				false : true;
 		}
 
-		void /*std::string*/ trata_argv(std::string comando) {
+		std::string trata_argv(std::string comando) {
 			verifica_argv();
 			if (_dir) {
 				std::size_t fsl_pos = comando.find_last_of("/");
 				std::size_t end_pos = comando.find_last_of(comando.back());
 				comando = comando.substr(fsl_pos+1, end_pos);
 			}
+
 			std::size_t dot_pos = comando.find_last_of(".");
 			comando = comando.substr(0, dot_pos);
-			std::cout << comando;
+			return comando;
 		}
 
 		void cria_registros() {
-			std::ifstream ifs (_argv[1], std::ifstream::in);
-			ifs.seekg (0, ifs.end);
-		    int length = ifs.tellg();
-		    ifs.seekg (0, ifs.beg);
-			char *buffer = new char[length];
-			ifs.read(buffer, length);
-			std::string descricao(buffer);
-			std::cout << descricao << std::endl;
-			ifs.close();
+			for (int i = 1; i < _argc; i++) {
+				std::ifstream ifs (_argv[i], std::ifstream::in);
 
-			// for (int i = 1; i < _argc; i++) {
-				// _regs.push_back(new Registro(i, trata_argv(_argv[i]),
-			// }
+				ifs.seekg (0, ifs.end);
+			    int length = ifs.tellg();
+			    ifs.seekg (0, ifs.beg);
+
+				char *buffer = new char[length];
+				ifs.read(buffer, length);
+				std::string descricao(buffer);
+
+				_regs.push_back(new Registro(i, trata_argv(_argv[i]),
+											descricao));
+
+				ifs.close();
+				delete buffer;
+			}
 		}
 
 		void cria_manpage_dat() {
@@ -72,7 +77,7 @@ class Sistema {
 	private:
 		int _argc;
 		std::vector<std::string> _argv;
-		// std::vector<Registro> _regs;
+		std::vector<Registro*> _regs;
 		bool _dir;
 };
 #endif

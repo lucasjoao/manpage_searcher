@@ -1,5 +1,7 @@
 fazer:
-1. criar arquivo e escrever algo nele
+- split comando nome
+
+
 2. criar arquivo de registro
     - ele pega todo o diretório, como tratar isso?
     - uma struct é um registro (__como definir o tamanho da struct?__)
@@ -16,3 +18,5 @@ desempenho ruim? joga tudo em um for
 5. arquivo invertido
 6. busca secundária
 7. busca conjuntiva
+
+desalocar memória???
