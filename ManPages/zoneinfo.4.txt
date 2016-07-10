@@ -1,3 +1,0 @@
-<beginning of page>
-zoneinfo <-> timezone information
-For notes regarding the zoneinfo timezones, see /usr/share/lib/zoneinfo/src/README.
