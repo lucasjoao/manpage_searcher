@@ -84,6 +84,13 @@ class Sistema {
 			return tmp.get_descricao();
 		}
 
+		bool tmp() {
+			std::string a("daiara");
+			std::string b("lucas");
+
+			return a < b ? true : false;
+		}
+
 	private:
 		int _argc;
 		std::vector<std::string> _argv;
