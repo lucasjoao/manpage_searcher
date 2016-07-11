@@ -58,28 +58,17 @@ class Sistema {
 		}
 
 		void cria_manpage_dat() {
-			// long start, end;
+			long start, end;
 			std::ofstream ofs("manpages.dat", std::ofstream::binary);
 
-			// for (int i = 0; i < _argc; i++) {
+			for (unsigned int i = 0; i < _regs.size(); i++) {
+				start = ofs.tellp();
+				ofs.write((char *) _regs[i], sizeof(Registro));
+				end = ofs.tellp();
 
-			// }
-			long start = ofs.tellp();
-			ofs.write((char *) _regs[0], sizeof(Registro));
-			long end = ofs.tellp();
-
-			_regs[0]->set_dat_start(start);
-			_regs[0]->set_dat_end(end);
-
-
-			long start2 = ofs.tellp();
-			ofs.write((char *) _regs[1], sizeof(Registro));
-			long end2 = ofs.tellp();
-
-			_regs[1]->set_dat_start(start2);
-			_regs[1]->set_dat_end(end2);
-
-			std::cout << start2 << "\n" << end2 << "\n";
+				_regs[i]->set_dat_start(start);
+				_regs[i]->set_dat_end(end);
+			}
 
 			ofs.close();
 		}
@@ -87,12 +76,12 @@ class Sistema {
 		std::string le_manpage_dat() {
 			std::ifstream ifs("manpages.dat", std::ifstream::binary);
 
-			ifs.seekg(_regs[1]->get_dat_start());
+			ifs.seekg(_regs[10]->get_dat_start());
 			Registro tmp;
-			long prov = _regs[1]->get_dat_end() - _regs[1]->get_dat_start();
+			long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
 			ifs.read((char *) &tmp, prov);
 			ifs.close();
-			return tmp.get_comando();
+			return tmp.get_descricao();
 		}
 
 	private:
