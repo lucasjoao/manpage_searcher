@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include "Registro.hpp"
+#include "Indice.hpp"
+#include "NoAVL.hpp"
 
 class Sistema {
 	public:
@@ -84,17 +86,25 @@ class Sistema {
 			return tmp.get_descricao();
 		}
 
-		bool tmp() {
-			std::string a("daiara");
-			std::string b("lucas");
-
-			return a < b ? true : false;
+		void cria_indices() {
+			for (unsigned int i = 0; i < _regs.size(); i++) {
+				_inds.push_back(new Indice(_regs[i]->get_indice(),
+										   _regs[i]->get_comando()));
+			}
 		}
+
+		// bool tmp() {
+		// 	std::string a("daiara");
+		// 	std::string b("lucas");
+
+		// 	return a < b ? true : false;
+		// }
 
 	private:
 		int _argc;
 		std::vector<std::string> _argv;
 		std::vector<Registro*> _regs;
+		std::vector<Indice*> _inds;
 		bool _dir;
 };
 #endif

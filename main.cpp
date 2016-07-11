@@ -12,12 +12,14 @@ int main(int argc, char **argv) {
 
 	sis.cria_registros();
 	sis.cria_manpage_dat();
-	std::cout << sis.le_manpage_dat() << std::endl;
 
-	if (sis.tmp())
-		std::cout << "menor, funciona\n";
-	else
-		std::cout << "estranho\n";
+	sis.cria_indices();
+	// std::cout << sis.le_manpage_dat() << std::endl;
+
+	// if (sis.tmp())
+	// 	std::cout << "menor, funciona\n";
+	// else
+	// 	std::cout << "estranho\n";
 
 	return 0;
 }
