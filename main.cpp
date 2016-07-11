@@ -12,6 +12,6 @@ int main(int argc, char **argv) {
 
 	sis.cria_registros();
 	sis.cria_manpage_dat();
-
+	std::cout << sis.le_manpage_dat() << std::endl;
 	return 0;
 }

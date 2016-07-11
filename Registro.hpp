@@ -20,6 +20,26 @@ class Registro {
 			_dat_end = end;
 		}
 
+		int get_dat_start() {
+			return _dat_start;
+		}
+
+		int get_dat_end() {
+			return _dat_end;
+		}
+
+		int get_indice() {
+			return _indice;
+		}
+
+		std::string get_comando() {
+			return _comando;
+		}
+
+		std::string get_descricao() {
+			return _descricao;
+		}
+
 	private:
 		int _dat_start;
 		int _dat_end;
