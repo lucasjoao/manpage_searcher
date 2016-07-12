@@ -24,6 +24,10 @@ class Indice {
 			return _comando;
 		}
 
+		long get_tamanho() {
+			return _tamanho;
+		}
+
 	private:
 		int _indice;
 		std::string _comando;
