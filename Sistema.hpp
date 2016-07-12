@@ -108,7 +108,6 @@ class Sistema {
 				end = ofs.tellp();
 
 				_inds[i]->set_tamanho(end - start);
-				std::cout << end - start << std::endl;
 			}
 
 			ofs.close();
