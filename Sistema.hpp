@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 #include "Registro.hpp"
-#include "Indice.hpp"
 #include "NoAVL.hpp"
+#include "Indice.hpp"
 
 class Sistema {
 	public:
@@ -87,9 +87,26 @@ class Sistema {
 		}
 
 		void cria_indices() {
-			for (unsigned int i = 0; i < _regs.size(); i++) {
+			for (unsigned int i = 0; i < _regs.size(); i++)
 				_inds.push_back(new Indice(_regs[i]->get_indice(),
 										   _regs[i]->get_comando()));
+		}
+
+		void cria_arv_tmp() {
+			_avl = new NoAVL<Indice*>(_inds[0]);
+			for (unsigned int i = 1; i < _inds.size(); i++)
+				_avl = _avl->inserir(_inds[i], _avl);
+		}
+
+		void teste_parcial_avl() {
+			_avl->emOrdem(_avl);
+			std::vector<NoAVL<Indice*>*> tmp = _avl->getElementos();
+			Indice *a;
+			for (unsigned int i = 0; i < tmp.size(); i++) {
+				a = *(tmp[i]->getDado());
+				// std::cout << tmp[i]->getDado()->get_comando() << std::endl;
+				std::cout << a->get_comando() << std::endl;
+
 			}
 		}
 
@@ -104,7 +121,8 @@ class Sistema {
 		int _argc;
 		std::vector<std::string> _argv;
 		std::vector<Registro*> _regs;
-		std::vector<Indice*> _inds;
 		bool _dir;
+		std::vector<Indice*> _inds;
+		NoAVL<Indice*> *_avl;
 };
 #endif

@@ -14,6 +14,8 @@ int main(int argc, char **argv) {
 	sis.cria_manpage_dat();
 
 	sis.cria_indices();
+	sis.cria_arv_tmp();
+	sis.teste_parcial_avl();
 	// std::cout << sis.le_manpage_dat() << std::endl;
 
 	// if (sis.tmp())
