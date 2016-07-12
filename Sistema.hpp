@@ -114,7 +114,8 @@ class Sistema {
 		}
 
 		void teste_parcial_avl() {
-			_avl->nivelOrdem(_avl);
+			NoAVL<Indice*> *oh = new NoAVL<Indice*>(new Indice(-1, "nulo"));
+			_avl->nivelOrdem(_avl, oh);
 			std::vector<NoAVL<Indice*>*> tmp = _avl->getElementos();
 			Indice *a;
 			for (unsigned int i = 0; i < tmp.size(); i++) {

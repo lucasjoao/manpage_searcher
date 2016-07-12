@@ -463,21 +463,34 @@ class NoAVL {
 			}
 		}
 
-		void nivelOrdem(NoAVL<T> *nodo) {
+		void nivelOrdem(NoAVL<T> *nodo, NoAVL<T> *nulo) {
 		    if (!checkNullptr(nodo)) {
+				std::vector<NoAVL<T>*> withNull;
+
 				elementos.push_back(nodo);
+				withNull.push_back(nodo);
 
 				int max = 1;
 				for (int i = 0; i < max; i++) {
 					if (!checkNullptr(elementos[i]->getEsquerda())) {
 						elementos.push_back(elementos[i]->getEsquerda());
+						withNull.insert(withNull.begin()+(2*i+1),
+										elementos[i]->getEsquerda());
 						max++;
+					} else {
+						withNull.insert(withNull.begin()+(2*i+1), nulo);
 					}
+
 					if (!checkNullptr(elementos[i]->getDireita())) {
 						elementos.push_back(elementos[i]->getDireita());
+						withNull.insert(withNull.begin()+(2*i+2),
+										elementos[i]->getDireita());
 						max++;
+					} else {
+						withNull.insert(withNull.begin()+(2*i+2), nulo);
 					}
 				}
+				elementos = withNull;
 			}
 		}
 
