@@ -111,8 +111,9 @@ class Sistema {
 
 		std::string busca_prim(std::string comando) {
 			int indice = busca_ind_primario_dat(comando);
-			std::cout << indice << std::endl;
-			return comando;
+			std::string descricao = le_manpage_dat(indice);
+			// std::cout << indice << std::endl;
+			return descricao;
 		}
 
 		int busca_ind_primario_dat(std::string comando) {
@@ -122,32 +123,44 @@ class Sistema {
 			Indice tmp;
 			// long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
 			ifs.read((char *) &tmp, _inds[0]->get_tamanho());
-			ifs.close();
-
-			std::cout << tmp.get_comando();
-			// int i = 0;
-			return 1;
-			// while (tmp.get_comando() != "nulo"
-			// 	   && tmp.get_comando() != comando) {
-
-			// 	if (tmp.get_comando() < comando) {
-			// 		ifs.seekg((2*i+1) * _inds[0]->get_tamanho());
-			// 		ifs.read((char *) &tmp, _inds[0]->get_tamanho());
-			// 	} else {
-			// 		ifs.seekg((2*i+2) * _inds[0]->get_tamanho());
-			// 		ifs.read((char *) &tmp, _inds[0]->get_tamanho());
-			// 	}
-
-			// 	std::cout<<i<<std::endl;i++;
-			// }
-
 			// ifs.close();
 
-			// if (tmp.get_comando() == "nulo")
-			// 	return -1;
-			// else
-			// 	return tmp.get_indice();
+			// std::cout << tmp.get_comando();
+			int i = 0;
+			// return 1;
+			while (tmp.get_comando() != "nulo"
+				   && tmp.get_comando() != comando) {
 
+				if (tmp.get_comando() < comando) {
+					ifs.seekg((2*i+1) * _inds[0]->get_tamanho());
+					ifs.read((char *) &tmp, _inds[0]->get_tamanho());
+				} else {
+					ifs.seekg((2*i+2) * _inds[0]->get_tamanho());
+					ifs.read((char *) &tmp, _inds[0]->get_tamanho());
+				}
+
+				i++;
+			}
+
+			ifs.close();
+
+			if (tmp.get_comando() == "nulo")
+				return -1;
+			else
+				return tmp.get_indice();
+		}
+
+		std::string le_manpage_dat(int indice) {
+			std::ifstream ifs("manpages.dat", std::ifstream::binary);
+
+			int size = _regs[0]->get_dat_end() - _regs[0]->get_dat_start();
+			// ifs.seekg(_regs[10]->get_dat_start());
+			Registro tmp;
+			// long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
+			ifs.seekg((indice-1) * size);
+			ifs.read((char *) &tmp, size);
+			ifs.close();
+			return tmp.get_descricao();
 		}
 
 		void teste_parcial_avl() {
@@ -163,7 +176,7 @@ class Sistema {
 			}
 		}
 
-		std::string le_manpage_dat() {
+		std::string le_manpage_data() {
 			std::ifstream ifs("manpages.dat", std::ifstream::binary);
 
 			ifs.seekg(_regs[10]->get_dat_start());
