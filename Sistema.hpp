@@ -98,6 +98,22 @@ class Sistema {
 				_avl = _avl->inserir(_inds[i], _avl);
 		}
 
+		void cria_ind_primario_dat() {
+			long start, end;
+			std::ofstream ofs("ind_primario.dat", std::ofstream::binary);
+
+			for (unsigned int i = 0; i < _inds.size(); i++) {
+				start = ofs.tellp();
+				ofs.write((char *) _inds[i], sizeof(Indice));
+				end = ofs.tellp();
+
+				_inds[i]->set_tamanho(end - start);
+				std::cout << end - start << std::endl;
+			}
+
+			ofs.close();
+		}
+
 		void teste_parcial_avl() {
 			_avl->nivelOrdem(_avl);
 			std::vector<NoAVL<Indice*>*> tmp = _avl->getElementos();

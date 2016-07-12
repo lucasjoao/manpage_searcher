@@ -12,6 +12,10 @@ class Indice {
 
 		~Indice() {}
 
+		void set_tamanho(long tamanho) {
+			_tamanho = tamanho;
+		}
+
 		int get_indice() {
 			return _indice;
 		}
@@ -23,5 +27,6 @@ class Indice {
 	private:
 		int _indice;
 		std::string _comando;
+		long _tamanho;
 };
 #endif
