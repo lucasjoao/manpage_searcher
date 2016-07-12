@@ -51,7 +51,5 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	sis.teste_parcial_avl();
-
 	return 0;
 }

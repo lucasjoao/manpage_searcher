@@ -1,5 +1,5 @@
 fazer se tiver tempo:
-- caçar funções e vars desnecessárias para a lógica do programa
+- caçar funções e vars desnecessárias (principalmente tamanho de registro ou de indice) para a lógica do programa
 - comentar sutilidade do i = 0 e i = 1
 - verificar o que vai na heap e na stack. Adotar um padrão
 - tratamento para saber se abriu arquivo ou não

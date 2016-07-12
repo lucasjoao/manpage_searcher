@@ -100,14 +100,20 @@ class Sistema {
 
 		void cria_ind_primario_dat() {
 			long start, end;
+
+			NoAVL<Indice*> *nulo = new NoAVL<Indice*>(new Indice(-1, "nulo"));
+			_avl->nivelOrdem(_avl, nulo);
+			std::vector<NoAVL<Indice*>*> tmp = _avl->getElementos();
+
 			std::ofstream ofs("ind_primario.dat", std::ofstream::binary);
 
-			for (unsigned int i = 0; i < _inds.size(); i++) {
+			for (unsigned int i = 0; i < tmp.size(); i++) {
 				start = ofs.tellp();
-				ofs.write((char *) _inds[i], sizeof(Indice));
+				ofs.write((char *) tmp[i], sizeof(Indice));
 				end = ofs.tellp();
 
-				_inds[i]->set_tamanho(end - start);
+				if (i < _inds.size())
+					_inds[i]->set_tamanho(end - start);
 			}
 
 			ofs.close();
