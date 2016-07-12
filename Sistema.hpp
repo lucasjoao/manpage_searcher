@@ -119,6 +119,10 @@ class Sistema {
 			ofs.close();
 		}
 
+		std::string busca_prim(std::string comando) {
+			return comando;
+		}
+
 		void teste_parcial_avl() {
 			NoAVL<Indice*> *oh = new NoAVL<Indice*>(new Indice(-1, "nulo"));
 			_avl->nivelOrdem(_avl, oh);

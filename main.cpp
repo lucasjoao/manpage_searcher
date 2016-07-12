@@ -18,8 +18,8 @@ int main(int argc, char **argv) {
 	sis.cria_arv_tmp();
 	sis.cria_ind_primario_dat();
 
-	bool controle = true;
-	while (controle) {
+	// bool controle = true;
+	// while (controle) {
 		std::cout << "Digite o número da opção que você deseja realizar: \n"
 				  << "1 - busca por chave primária\n"
 				  << "2 - busca por chave secundária\n"
@@ -33,8 +33,17 @@ int main(int argc, char **argv) {
 		if (std::cin.fail())
 			opcao = 42;
 
+		std::string comando;
+		std::string resultado;
 		switch(opcao) {
 			case 1:
+				system("clear");
+				std::cout << "Insira o nome do comando para buscar a manpage:"
+						  << "\n> ";
+				std::cin >> comando;
+
+				resultado = sis.busca_prim(comando);
+				std::cout << resultado << std::endl << std::endl;
 				break;
 			case 2:
 				break;
@@ -43,13 +52,13 @@ int main(int argc, char **argv) {
 			case 42:
 				std::cout << "\nSem zoeiras, por favor!\n";
 			case 0:
-				controle = false;
+				// controle = false;
 				break;
 			default:
 				system("clear");
 				std::cout << "\nAparentemente é uma opção inválida!\n\n";
 		}
-	}
+	// }
 
 	return 0;
 }
