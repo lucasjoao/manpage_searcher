@@ -463,6 +463,24 @@ class NoAVL {
 			}
 		}
 
+		void nivelOrdem(NoAVL<T> *nodo) {
+		    if (!checkNullptr(nodo)) {
+				elementos.push_back(nodo);
+
+				int max = 1;
+				for (int i = 0; i < max; i++) {
+					if (!checkNullptr(elementos[i]->getEsquerda())) {
+						elementos.push_back(elementos[i]->getEsquerda());
+						max++;
+					}
+					if (!checkNullptr(elementos[i]->getDireita())) {
+						elementos.push_back(elementos[i]->getDireita());
+						max++;
+					}
+				}
+			}
+		}
+
 	private:
 		T *dado;						   //!< informacao generica do nodo
 		NoAVL<T> *esquerda;				   //!< nodo filho da esquerda
