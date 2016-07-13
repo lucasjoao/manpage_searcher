@@ -137,7 +137,6 @@ class Sistema {
 			std::string comando_tmp;
 			std::string descricao_tmp;
 
-			int i = 0;
 			while(!ifs.eof()) {
 				ifs >> indice_tmp;
 
