@@ -12,22 +12,6 @@ class Registro {
 
 		~Registro() {}
 
-		void set_dat_start(long start) {
-			_dat_start = start;
-		}
-
-		void set_dat_end(long end) {
-			_dat_end = end;
-		}
-
-		int get_dat_start() {
-			return _dat_start;
-		}
-
-		int get_dat_end() {
-			return _dat_end;
-		}
-
 		int get_indice() {
 			return _indice;
 		}
@@ -41,8 +25,6 @@ class Registro {
 		}
 
 	private:
-		int _dat_start;
-		int _dat_end;
 		int _indice;
 		std::string _comando;
 		std::string _descricao;

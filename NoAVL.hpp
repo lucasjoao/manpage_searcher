@@ -27,6 +27,10 @@ class NoAVL {
 			: dado(new T(dado)), esquerda(nullptr), direita(nullptr), altura(0)
 			 {}
 
+		explicit NoAVL(const T &dado, int ind)
+			: dado(new T(dado)), esquerda(nullptr), direita(nullptr),
+			altura(0), indice(ind) {}
+
 		/*!
 		 *  \brief Destrutor
 		 *
@@ -79,6 +83,10 @@ class NoAVL {
 		 */
 		NoAVL<T> *getDireita() {
 			return direita;
+		}
+
+		int getIndice() {
+			return indice;
 		}
 
 		/*!
@@ -331,15 +339,15 @@ class NoAVL {
 		 *		Apos isso balanceia, se necessario, os nodos que estao acima
 		 *		da arv inserida.
 		 */
-		NoAVL<T> *inserir(const T &dado, NoAVL<T> *arv) {
+		NoAVL<T> *inserir(const T &dado, NoAVL<T> *arv, int indice) {
 			if (checkNullptr(arv)) {
-				arv = new NoAVL<T>(dado);
+				arv = new NoAVL<T>(dado, indice);
 				if (checkNullptr(arv))
 					throw "sem espaço na memória!";
 			} else if (dado < *arv->getDado()) {  //!< insere a esquerda
-				arv->setEsquerda(inserir(dado, arv->getEsquerda()));
+				arv->setEsquerda(inserir(dado, arv->getEsquerda(), indice));
 			} else {                              //!< insere a direita
-				arv->setDireita(inserir(dado, arv->getDireita()));
+				arv->setDireita(inserir(dado, arv->getDireita(), indice));
 			}
 
 			fixAltura(arv);
@@ -463,34 +471,21 @@ class NoAVL {
 			}
 		}
 
-		void nivelOrdem(NoAVL<T> *nodo, NoAVL<T> *nulo) {
+		void nivelOrdem(NoAVL<T> *nodo) {
 		    if (!checkNullptr(nodo)) {
-				std::vector<NoAVL<T>*> withNull;
-
 				elementos.push_back(nodo);
-				withNull.push_back(nodo);
 
 				int max = 1;
 				for (int i = 0; i < max; i++) {
 					if (!checkNullptr(elementos[i]->getEsquerda())) {
 						elementos.push_back(elementos[i]->getEsquerda());
-						withNull.insert(withNull.begin()+(2*i+1),
-										elementos[i]->getEsquerda());
 						max++;
-					} else {
-						withNull.insert(withNull.begin()+(2*i+1), nulo);
 					}
-
 					if (!checkNullptr(elementos[i]->getDireita())) {
 						elementos.push_back(elementos[i]->getDireita());
-						withNull.insert(withNull.begin()+(2*i+2),
-										elementos[i]->getDireita());
 						max++;
-					} else {
-						withNull.insert(withNull.begin()+(2*i+2), nulo);
 					}
 				}
-				elementos = withNull;
 			}
 		}
 
@@ -501,5 +496,6 @@ class NoAVL {
 		int altura; 					   //!< representa a altura do no avl
 		std::vector<NoAVL<T>*> elementos;  //!< elementos acessados durante
 										   // o percurso realizado
+		int indice;
 };
 #endif

@@ -17,7 +17,6 @@ int main(int argc, char **argv) {
 	sis.cria_indices();
 	sis.cria_arv_tmp();
 	sis.cria_ind_primario_dat();
-	// std::cout << sis.fuck();
 
 	bool controle = true;
 	while (controle) {
@@ -43,12 +42,14 @@ int main(int argc, char **argv) {
 						  << "\n> ";
 				std::cin >> comando;
 
-				resultado = sis.busca_prim(comando);
-				std::cout << std::endl << resultado << std::endl << std::endl;
+				std::cout << std::endl << sis.busca_prim(comando) << "\n\n";
 				break;
 			case 2:
+				std::cout << "Não foi implementado.\n" << ":(\n";
 				break;
 			case 3:
+				system("clear");
+				std::cout << "Não foi implementado.\n" << ":(\n";
 				break;
 			case 42:
 				std::cout << "\nSem zoeiras, por favor!\n";

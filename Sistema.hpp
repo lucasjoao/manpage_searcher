@@ -35,8 +35,7 @@ class Sistema {
 			}
 
 			std::size_t dot_pos = comando.find_last_of(".");
-			comando = comando.substr(0, dot_pos);
-			return comando;
+			return comando.substr(0, dot_pos);
 		}
 
 		void cria_registros() {
@@ -60,16 +59,15 @@ class Sistema {
 		}
 
 		void cria_manpage_dat() {
-			long start, end;
-			std::ofstream ofs("manpages.dat", std::ofstream::binary);
+			std::ofstream ofs("manpages.dat");
 
 			for (unsigned int i = 0; i < _regs.size(); i++) {
-				start = ofs.tellp();
-				ofs.write((char *) _regs[i], sizeof(Registro));
-				end = ofs.tellp();
-
-				_regs[i]->set_dat_start(start);
-				_regs[i]->set_dat_end(end);
+				ofs << _regs[i]->get_indice();
+				ofs << " ";
+				ofs << _regs[i]->get_comando();
+				ofs << " ";
+				ofs << _regs[i]->get_descricao();
+				ofs << "\3";
 			}
 
 			ofs.close();
@@ -82,124 +80,78 @@ class Sistema {
 		}
 
 		void cria_arv_tmp() {
-			_avl = new NoAVL<Indice*>(_inds[0]);
+			_avl = new NoAVL<std::string>(_inds[0]->get_comando(),  _inds[0]->get_indice());
 			for (unsigned int i = 1; i < _inds.size(); i++)
-				_avl = _avl->inserir(_inds[i], _avl);
+				_avl = _avl->inserir(_inds[i]->get_comando(), _avl,
+									 _inds[i]->get_indice());
 		}
 
 		void cria_ind_primario_dat() {
-			long start, end;
+			_avl->nivelOrdem(_avl);
+			std::vector<NoAVL<std::string>*> vector_tmp = _avl->getElementos();
 
-			NoAVL<Indice*> *nulo = new NoAVL<Indice*>(new Indice(-1, "nulo"));
-			_avl->nivelOrdem(_avl, nulo);
-			std::vector<NoAVL<Indice*>*> tmp = _avl->getElementos();
-
-			std::ofstream ofs("ind_primario.dat", std::ofstream::binary);
-			Indice *a;
-			for (unsigned int i = 0; i < tmp.size(); i++) {
-				a = *(tmp[i]->getDado());
-				start = ofs.tellp();
-				ofs.write((char *) a, sizeof(Indice));
-				end = ofs.tellp();
-
-				if (i < _inds.size())
-					_inds[i]->set_tamanho(end - start);
+			std::ofstream ofs("ind_primario.dat");
+			for (unsigned int i = 0; i < vector_tmp.size(); i++) {
+				ofs << *vector_tmp[i]->getDado();
+				ofs << " ";
+				ofs << vector_tmp[i]->getIndice();
+				ofs << "\3";
 			}
 
 			ofs.close();
 		}
 
 		std::string busca_prim(std::string comando) {
-			int indice = busca_ind_primario_dat(comando);
-			std::string descricao = le_manpage_dat(indice);
-			// std::cout << indice << std::endl;
-			return descricao;
+			int indice = le_ind_primario_dat(comando);
+			return le_manpage_dat(indice);
 		}
 
-		int busca_ind_primario_dat(std::string comando) {
-			std::ifstream ifs("ind_primario.dat", std::ifstream::binary);
+		int le_ind_primario_dat(std::string comando) {
+			std::ifstream ifs("ind_primario.dat");
+			std::string comando_tmp;
+			int indice_tmp;
+			bool encontrou = false;
 
-			// ifs.seekg(_regs[10]->get_dat_start());
-			Indice tmp;
-			// long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
-			ifs.read((char *) &tmp, _inds[0]->get_tamanho());
-			// ifs.close();
+			while(!ifs.eof()) {
+				ifs >> comando_tmp >> indice_tmp;
 
-			// std::cout << tmp.get_comando();
-			int i = 0;
-			// return 1;
-			while (tmp.get_comando() != "nulo"
-				   && tmp.get_comando() != comando) {
-
-				if (tmp.get_comando() < comando) {
-					ifs.seekg((2*i+1) * _inds[0]->get_tamanho());
-					ifs.read((char *) &tmp, _inds[0]->get_tamanho());
+				if(comando.compare(comando_tmp) == 0) {
+					encontrou = true;
+					break;
 				} else {
-					ifs.seekg((2*i+2) * _inds[0]->get_tamanho());
-					ifs.read((char *) &tmp, _inds[0]->get_tamanho());
+					ifs.ignore(std::numeric_limits<std::streamsize>::max(),
+							   '\3');
 				}
-
-				i++;
 			}
 
 			ifs.close();
-
-			if (tmp.get_comando() == "nulo")
-				return -1;
-			else
-				return tmp.get_indice();
+			return encontrou == false ? -1 : indice_tmp;
 		}
 
 		std::string le_manpage_dat(int indice) {
-			std::ifstream ifs("manpages.dat", std::ifstream::binary);
+			if (indice == -1)
+				return "Comando não encontrado!";
 
-			int size = _regs[0]->get_dat_end() - _regs[0]->get_dat_start();
-			// ifs.seekg(_regs[10]->get_dat_start());
-			Registro tmp;
-			// long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
-			ifs.seekg((indice-1) * size);
-			ifs.read((char *) &tmp, size);
-			ifs.close();
-			return tmp.get_descricao();
-		}
+			std::ifstream ifs("manpages.dat");
+			int indice_tmp;
+			std::string comando_tmp;
+			std::string descricao_tmp;
 
-		void teste_parcial_avl() {
-			NoAVL<Indice*> *oh = new NoAVL<Indice*>(new Indice(-1, "nulo"));
-			_avl->nivelOrdem(_avl, oh);
-			std::vector<NoAVL<Indice*>*> tmp = _avl->getElementos();
-			Indice *a;
-			for (unsigned int i = 0; i < tmp.size(); i++) {
-				a = *(tmp[i]->getDado());
-				// std::cout << tmp[i]->getDado()->get_comando() << std::endl;
-				std::cout << a->get_comando() << std::endl;
+			int i = 0;
+			while(!ifs.eof()) {
+				ifs >> indice_tmp;
 
+				if(indice == indice_tmp) {
+					getline(ifs, descricao_tmp, '\3');
+					break;
+				} else {
+					ifs.ignore(std::numeric_limits<std::streamsize>::max(),
+							   '\3');
+				}
 			}
-		}
 
-		std::string le_manpage_data() {
-			std::ifstream ifs("manpages.dat", std::ifstream::binary);
-
-			ifs.seekg(_regs[10]->get_dat_start());
-			Registro tmp;
-			long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
-			ifs.read((char *) &tmp, prov);
 			ifs.close();
-			return tmp.get_descricao();
-		}
-
-		std::string fuck() {
-			std::ifstream ifs("ind_primario.dat", std::ifstream::binary);
-
-			// ifs.seekg(_regs[10]->get_dat_start());
-			Indice tmp;
-			// long prov = _regs[10]->get_dat_end() - _regs[10]->get_dat_start();
-			ifs.read((char *) &tmp, _inds[0]->get_tamanho());
-			ifs.close();
-			return tmp.get_comando();
-		}
-
-		std::string& SSS (const char* s) {
-		    return *(new std::string(s));
+			return descricao_tmp;
 		}
 
 	private:
@@ -208,6 +160,6 @@ class Sistema {
 		std::vector<Registro*> _regs;
 		bool _dir;
 		std::vector<Indice*> _inds;
-		NoAVL<Indice*> *_avl;
+		NoAVL<std::string> *_avl;
 };
 #endif
