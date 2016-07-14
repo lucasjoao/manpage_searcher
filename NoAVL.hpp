@@ -27,7 +27,7 @@ class NoAVL {
 			: dado(new T(dado)), esquerda(nullptr), direita(nullptr), altura(0)
 			 {}
 
-		explicit NoAVL(const T &dado, int ind)
+		explicit NoAVL(const T &dado, std::string ind)
 			: dado(new T(dado)), esquerda(nullptr), direita(nullptr),
 			altura(0), indice(ind) {}
 
@@ -85,7 +85,7 @@ class NoAVL {
 			return direita;
 		}
 
-		int getIndice() {
+		std::string getIndice() {
 			return indice;
 		}
 
@@ -339,7 +339,7 @@ class NoAVL {
 		 *		Apos isso balanceia, se necessario, os nodos que estao acima
 		 *		da arv inserida.
 		 */
-		NoAVL<T> *inserir(const T &dado, NoAVL<T> *arv, int indice) {
+		NoAVL<T> *inserir(const T &dado, NoAVL<T> *arv, std::string indice) {
 			if (checkNullptr(arv)) {
 				arv = new NoAVL<T>(dado, indice);
 				if (checkNullptr(arv))
@@ -496,6 +496,6 @@ class NoAVL {
 		int altura; 					   //!< representa a altura do no avl
 		std::vector<NoAVL<T>*> elementos;  //!< elementos acessados durante
 										   // o percurso realizado
-		int indice;
+		std::string indice;
 };
 #endif

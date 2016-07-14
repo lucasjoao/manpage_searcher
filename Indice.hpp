@@ -1,14 +1,12 @@
 #ifndef INDICE_HPP
 #define INDICE_HPP
 
-#include <string>
-
 class Indice {
 	public:
 		Indice() {}
 
-		Indice(int indice, std::string comando)
-				: _indice(indice), _comando(comando) {}
+		Indice(int indice, std::string comando, std::string descricao)
+				: _indice(indice), _comando(comando), _descricao(descricao) {}
 
 		~Indice() {}
 
@@ -20,8 +18,13 @@ class Indice {
 			return _comando;
 		}
 
+		std::string get_descricao() {
+			return _descricao;
+		}
+
 	private:
 		int _indice;
 		std::string _comando;
+		std::string _descricao;
 };
 #endif
