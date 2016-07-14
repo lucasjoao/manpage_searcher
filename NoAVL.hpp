@@ -27,9 +27,9 @@ class NoAVL {
 			: dado(new T(dado)), esquerda(nullptr), direita(nullptr), altura(0)
 			 {}
 
-		explicit NoAVL(const T &dado, std::string ind)
+		explicit NoAVL(const T &dado, std::string dsc)
 			: dado(new T(dado)), esquerda(nullptr), direita(nullptr),
-			altura(0), indice(ind) {}
+			altura(0), descricao(dsc) {}
 
 		/*!
 		 *  \brief Destrutor
@@ -85,8 +85,8 @@ class NoAVL {
 			return direita;
 		}
 
-		std::string getIndice() {
-			return indice;
+		std::string getDescricao() {
+			return descricao;
 		}
 
 		/*!
@@ -339,15 +339,15 @@ class NoAVL {
 		 *		Apos isso balanceia, se necessario, os nodos que estao acima
 		 *		da arv inserida.
 		 */
-		NoAVL<T> *inserir(const T &dado, NoAVL<T> *arv, std::string indice) {
+		NoAVL<T> *inserir(const T &dado, NoAVL<T> *arv, std::string dsc) {
 			if (checkNullptr(arv)) {
-				arv = new NoAVL<T>(dado, indice);
+				arv = new NoAVL<T>(dado, dsc);
 				if (checkNullptr(arv))
 					throw "sem espaço na memória!";
 			} else if (dado < *arv->getDado()) {  //!< insere a esquerda
-				arv->setEsquerda(inserir(dado, arv->getEsquerda(), indice));
+				arv->setEsquerda(inserir(dado, arv->getEsquerda(), dsc));
 			} else {                              //!< insere a direita
-				arv->setDireita(inserir(dado, arv->getDireita(), indice));
+				arv->setDireita(inserir(dado, arv->getDireita(), dsc));
 			}
 
 			fixAltura(arv);
@@ -496,6 +496,6 @@ class NoAVL {
 		int altura; 					   //!< representa a altura do no avl
 		std::vector<NoAVL<T>*> elementos;  //!< elementos acessados durante
 										   // o percurso realizado
-		std::string indice;
+		std::string descricao;
 };
 #endif
