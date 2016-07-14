@@ -1,8 +1,6 @@
 #ifndef REGISTRO_HPP
 #define REGISTRO_HPP
 
-#include <string>
-
 class Registro {
 	public:
 		Registro() {}

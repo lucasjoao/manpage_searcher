@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <vector>
 #include "Registro.hpp"
 #include "NoAVL.hpp"
@@ -81,7 +80,8 @@ class Sistema {
 		}
 
 		void cria_arv_tmp() {
-			_avl = new NoAVL<std::string>(_inds[0]->get_comando(),  _inds[0]->get_descricao());
+			_avl = new NoAVL<std::string>(_inds[0]->get_comando(),
+										  _inds[0]->get_descricao());
 			for (unsigned int i = 1; i < _inds.size(); i++)
 				_avl = _avl->inserir(_inds[i]->get_comando(), _avl,
 									 _inds[i]->get_descricao());
@@ -95,32 +95,24 @@ class Sistema {
 			for (unsigned int i = 0; i < vector_tmp.size(); i++) {
 				ofs << *vector_tmp[i]->getDado();
 				ofs << " ";
-				ofs << vector_tmp[i]->getIndice();
+				ofs << vector_tmp[i]->getDescricao();
 				ofs << "\3";
 			}
 
 			ofs.close();
 		}
 
-		std::string busca_prim(std::string comando) {
-			return le_ind_primario_dat(comando);
-			// int indice = le_ind_primario_dat(comando);
-			// return le_manpage_dat(indice, comando);
-		}
-
-		// int le_ind_primario_dat(std::string comando) {
 		std::string le_ind_primario_dat(std::string comando) {
 			std::ifstream ifs("ind_primario.dat");
 			std::string comando_tmp;
 			std::string descricao_tmp;
-			// int indice_tmp;
-			// bool encontrou = false;
+			bool encontrou = false;
 
 			while(!ifs.eof()) {
 				ifs >> comando_tmp;
 
 				if(comando.compare(comando_tmp) == 0) {
-					// encontrou = true;
+					encontrou = true;
 					getline(ifs, descricao_tmp, '\3');
 					break;
 				} else {
@@ -130,42 +122,8 @@ class Sistema {
 			}
 
 			ifs.close();
-			return descricao_tmp;
-			// return encontrou == false ? -1 : indice_tmp;
-		}
-
-		std::string le_manpage_dat(int indice, std::string comando) {
-			if (indice == -1)
+			if (!encontrou)
 				return "Comando não existe na base!";
-
-			std::ifstream ifs("manpages.dat");
-			int indice_tmp;
-			std::string comando_tmp;
-			std::string descricao_tmp;
-			// int seg;
-			std::string seg;
-
-			while(!ifs.eof()) {
-				ifs >> indice_tmp >> comando_tmp;
-				// if (seg == indice_tmp)
-					// return "timeout";
-				// seg = indice_tmp;
-				if (seg.compare(comando_tmp) == 0)
-					return "timeout";
-				seg = comando_tmp;
-
-
-				if (comando.compare(comando_tmp) == 0) {
-				// if(indice == indice_tmp) {
-					getline(ifs, descricao_tmp, '\3');
-					break;
-				} else {
-					ifs.ignore(std::numeric_limits<std::streamsize>::max(),
-							   '\3');
-				}
-			}
-
-			ifs.close();
 			return descricao_tmp;
 		}
 

@@ -42,14 +42,16 @@ int main(int argc, char **argv) {
 						  << "\n> ";
 				std::cin >> comando;
 
-				std::cout << std::endl << sis.busca_prim(comando) << "\n\n";
+				std::cout << std::endl << sis.le_ind_primario_dat(comando)
+						  << "\n\n";
 				break;
 			case 2:
-				std::cout << "Não foi implementado.\n" << ":(\n";
+				system("clear");
+				std::cout << "Não foi implementado.\n" << ":(\n\n";
 				break;
 			case 3:
 				system("clear");
-				std::cout << "Não foi implementado.\n" << ":(\n";
+				std::cout << "Não foi implementado.\n" << ":(\n\n";
 				break;
 			case 42:
 				std::cout << "\nSem zoeiras, por favor!\n";
