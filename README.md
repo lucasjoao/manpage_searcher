@@ -6,10 +6,16 @@ Desenvolvido por Lucas João Martins e Wesley Mayk Gama Luz.
 
 ### Uso ###
 Descompactar manpages:
-```tar -vzxf ManPages.tar.gz```
+
+```
+tar -vzxf ManPages.tar.gz
+```
 
 Para compilar, vá ao diretório src:
-```g++ main.cpp -o EXE -std=c++11```
+
+```
+g++ -o EXE main.cpp -g -lm -lutil -std=c++11 -Wall -Werror
+```
 
 ### TO-DO ###
 
